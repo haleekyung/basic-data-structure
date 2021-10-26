@@ -39,41 +39,33 @@ class Deque:
 
     def delete_front(self):
         self.delete_size()
-        while True:
-            if not self.isEmpty():
-                data = self.front.data
-                self.front = self.front.next
-                if self.front == None:
-                    self.rear == None
-                else:
-                    self.front.prev = None
-                return data
+        if not self.isEmpty():
+            data = self.front.data
+            self.front = self.front.next
+            if self.front == None:
+                self.rear = None
             else:
-                print('underflow')
-                break
+                self.front.prev = None
+            return data
+        else:
+            return print('underflow')
 
     def delete_rear(self):
         self.delete_size()
-        while True:
-            if not self.isEmpty():
-                data = self.rear.data
-                self.rear = self.rear.prev
-                if self.rear == None:
-                    self.front == None
-                else:
-                    self.rear.next = None
-                return data
+        if not self.isEmpty():
+            data = self.rear.data
+            self.rear = self.rear.prev
+            if self.rear == None:
+                self.front = None
             else:
-                print('underflow')
-                break
+                self.rear.next = None
+            return data
+        else:
+            return print('underflow')
 
     def print(self):
-        for elem in range(self.size):
-            print(self.front.next, end='')
-
-    def print_list(self):
         if self.isEmpty():
-            return;
+            return print('underflow');
 
         p = self.front
         while p:
@@ -81,7 +73,7 @@ class Deque:
                 print(p.data, end=' ')
 
             else:
-                print(p.data, '\n')
+                print(p.data)
             p = p.next
 
 if __name__ == "__main__":
@@ -98,7 +90,7 @@ if __name__ == "__main__":
                 deque.delete_rear()
 
             elif operation[0] == 'P':
-                deque.print_list()
+                deque.print()
 
         elif len(operation) == 2:
             if operation[0] == 'AF':
