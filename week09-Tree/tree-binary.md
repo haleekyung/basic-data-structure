@@ -1,6 +1,6 @@
 # 트리
 * 비선형구조
-* 나무를 거꾸로 한 것과 비슷하다.
+* 나무를 거꾸로 한 것과 비슷해서 트리라고 말한다.
 
 ***
 
@@ -49,4 +49,115 @@
 * 높이가 h이면 h ~ 2의 h승 - 1개의 노드를 가진다 (최대 노드수)
 * n개 노드의 이진 트리 높이: [log2(n + 1)] ~ n
 
-## 이진트리의 표현: 링크 표현법
+## 이진트리의 탐색
+* 왼쪽부터 탐색하면 된다. 만약 링크가 없어 단말노드일 경우 None으로 표현하면 된다.리의 표현
+### 배열 표현법
+
+### 링크 표현법
+* 왼쪽 자식 - data - 오른쪽 자식
+* 링크는 자식노드만 연결시키면 된다.
+* 탐색의 순서는 왼쪽에서 오른쪽으로
+* 최초의 탐색 기준을 찾을 때에는 시작 포인트를 찾으면 되는데, 시작점은 '최상위'를 기준으로 하여서, root pointer를 찾으면 된다. 그러고 나면 그 다음 자식 노드를 찾으면 되기 떄문. 왼쪽부터 탐색하면 된다.
+* 만약 링크가 없어 단말노드일 경우 None으로 표현하면 된다.
+
+## 이진트리의 연산
+### 순회
+* 트리에 속하는 모든 노드를 한 번씩 방문하는 것
+* 선형 자료구조는 순회가 단순하다. 구조 자체가 선형이기 때문임
+* 트리는 다양한 방법이 있다. 
+
+### 이진트리의 기본 순회는 3가지
+* 전위 순회(preorder traversal) : VLR, 루트노드를 처음에 탐색함
+* 중위 순회(inorder traversal) : LVR, 루트노드를 중간에 탐색함
+* 후위 순회(postorder traversal) : LRV, 루트노드를 마지막에 탐색함
+
+    -> 루트노드를 언제 탐색하냐에 따라 탐색방법이 달라짐
+
+
+* 순회 또한 왼쪽 먼저, 오른쪽 그다음
+* 전체나 서브트리나 구조는 동일하다. 
+
+### 1) 전위순회
+* 루트 -> 왼쪽 서브트리 먼저 -> 오른쪽 서브트리를 그 다음
+* 서브트리 내에서도 루트 먼저 탐색, 전체가 같은 방식으로 순회함
+
+```python
+def preorder(n):
+    if n is not None:
+        print(n.data, end='')
+        preorder(n.left)
+        preorder(n.right)
+```
+
+### 2) 종위순회
+* 왼쪽 서브트리 -> 루트 -> 오른쪽 서브트리
+```python
+def inorder(n):
+    if n is not None:
+        inorder(n.left)
+        print(n.data, end='')
+        inorder(n.right)
+```
+
+### 3) 후위순회
+* 왼쪽 서브트리 -> 오른쪽 서브트리 -> 루트 
+```python
+def postorder(n):
+    postorder(n.left)
+    postorder(n.right)
+    print(n.data, end='')
+```
+
+### 4) 레벨순회
+* 노드를 레벨 순으로 검사하는 순회 방법
+    * 큐를 사용해 구현
+    * 순환을 사용하지 않음
+    
+
+* 너비우선 탐색과 유사하기 때문에 갈수록 양이 늘어남
+```python
+def levelorder(root):
+    queue = CircularQueue()
+    queue.enqueue(root)
+    while not queue.isEmpty():
+        n = queue.dequeue()
+        if n is not None:
+        print(n.data, end='')
+        queue.enqueue(n.left)
+        queue.enqueue(n.right)
+```
+
+## 이진트리 연산
+### 노드 개수, 단말 노드의 수
+### 1) 노드 개수
+```python
+def count_node(n):
+    if n is None:
+        return 0
+    else:
+        return 1 + count_node(n.left) + count_node(n.right)
+```
+
+### 2) 단말 노드의 수
+```python
+def count_leaf(n):
+    if n is None:
+        return 0
+    elif n.left is None and n.right is None:
+        return 1
+    else:
+        return count_leaf(n.left) + count_leaf(n.right)
+```
+
+### 3) 트리 높이
+```python
+def cal_height(n):
+    if n is None:
+        return 0
+    hLeft = calc_height(n.left)
+    hRight = calc_height(n.right)
+    if(hLeft > hRight):
+        return hLeft + 1
+    else:
+        return hRight + 1
+```
