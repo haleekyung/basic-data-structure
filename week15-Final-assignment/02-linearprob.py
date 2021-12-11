@@ -7,36 +7,35 @@ class LinearProbing:
     def hash(self, key):
         return key % self.M
 
-    def put(self, data):
-        initial_position = self.hash(data)
+    def put(self, key):
+        initial_position = self.hash(key)
         i = initial_position
         j = 0
-        conflict = ""
         while True:
             if self.a[i] == None:
-                self.a[i] = data
-                return conflict + str(i)
-            if self.a[i] == data:
-                return i
+                self.a[i] = key
+                # 주소 출력
+                return
 
-            conflict += "C"
+            if self.a[i] == key:
+                return
+
             j += 1
             i = (initial_position + j) % self.M
             if i == initial_position:
-                return -1
+                break
 
-    def get(self, data):
-        initial_position = self.hash(data)
+    def get(self, key):
+        initial_position = self.hash(key)
         i = initial_position
-        j = 0
+        j = 1
         while self.a[i] != None:
-            if self.a[i] == data:
-                return str(i) + " " + str(data)
+            if self.a[i] == key:
+                return self.d[i]
             i = (initial_position + j) % self.M
             j += 1
             if i == initial_position:
-                return -1
-        return -1
+                return
 
     def print(self):
         for i in range(self.M):
@@ -59,39 +58,14 @@ class LinearProbing:
 if __name__ == "__main__":
     M = int(input())
     linear = LinearProbing(M)
-    while True:
-        inputs = input()
-        inputValue = inputs.split( " " )
+    str = input()
+    inputValue = str.split( " " )
+    while inputValue[0] != 'e':
         if inputValue[0] == 'i':
-            print(linear.put(int(inputValue[1])))
+            linear.put(int(inputValue[1]))
 
         elif inputValue[0] == 's':
-            print(linear.get(int(inputValue[1])))
+            linear.get(int(inputValue[1]))
 
         elif inputValue[0] == 'e':
             break
-
-# 입력 예시 1
-# if __name__ == "__main__":
-#     linear = LinearProbing(7)
-#     print(linear.put(17011112))
-#     print(linear.put(17012345))
-#     print(linear.put(17012687))
-#     print(linear.get(17011111))
-
-# 입력 예시 2
-# if __name__ == "__main__":
-#     linear = LinearProbing(13)
-#     print(linear.put(16110243))
-#     print(linear.put(17011111))
-#     print(linear.put(17012331))
-#     print(linear.put(17012354))
-#     print(linear.put(17013672))
-#     print(linear.put(16012342))
-#     print(linear.get(17012354))
-#     print(linear.put(15013986))
-#     print(linear.put(102067))
-#     print(linear.put(113478))
-#     print(linear.put(14012322))
-#     print(linear.get(16110243))
-
