@@ -39,7 +39,7 @@ class LinearProbing:
 
     def print(self):
         for i in range(self.M):
-            print(str(self.a[i]), ' ', end= ' ')
+            print(str(self.a[i]), end=' ')
 
 
 if __name__ == "__main__":
